@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Thread } from '../services/data';
+import { ForumsService } from '../services/forums.service';
 
 @Component({
   selector: 'app-threads',
@@ -9,9 +11,13 @@ import { Thread } from '../services/data';
 export class ThreadsComponent implements OnInit {
   threads!: Thread[];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private forumsService:
+    ForumsService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.threads = this.forumsService.forum(params['forum_alias']).threads;
+    });
   }
 
 }
